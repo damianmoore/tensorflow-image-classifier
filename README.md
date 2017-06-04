@@ -25,9 +25,9 @@ For example:
   ~/tf_files/
   ~/tf_files/classifier_name/
   ~/tf_files/classifier_name/data
-  ~/tf_files/classifier_name/data/car
-  ~/tf_files/classifier_name/data/moto
-  ~/tf_files/classifier_name/data/bus
+  ~/tf_files/classifier_name/data/daisy
+  ~/tf_files/classifier_name/data/dandelion
+  ~/tf_files/classifier_name/data/sunflowers
 ```
 Once you have run the training process, your classifier directory will also have trained classifier output graph.
 

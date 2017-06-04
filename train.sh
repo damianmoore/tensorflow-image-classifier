@@ -17,7 +17,7 @@ done
 
 echo Training "${DATASET}" dataset with "${STEPS:-4000}" steps
 
-docker run -v $VOLUME:/tf_files damianmoore/tensor-guess python /retrain.py \
+docker run -v $VOLUME:/tf_files damianmoore/tensorflow-image-classifier python /retrain.py \
     --bottleneck_dir=/tf_files/bottlenecks \
     --how_many_training_steps=${STEPS:-4000} \
     --model_dir=/tf_files/inception \

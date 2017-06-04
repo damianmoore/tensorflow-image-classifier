@@ -1,1 +1,1 @@
-docker build -t damianmoore/tensor-guess .
+docker build -t damianmoore/tensorflow-image-classifier .
