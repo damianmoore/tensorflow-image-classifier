@@ -59,7 +59,7 @@ mv flower_photos/* tf_files/flowers/data/
 rm -r flower_photos
 rm tf_files/flowers/data/*/[3-9]*  # Optional if you just want to try it quickly
 ./train.sh tf_files flowers -s 500
-./classify.sh tf_files flowers tf_files/flowers/data/daisy/5547758_eea9edfd54_n.jpg
+./classify.sh tf_files flowers tf_files/flowers/data/daisy/11124324295_503f3a0804.jpg
 ```
 
 It should output the following:
