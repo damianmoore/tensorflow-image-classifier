@@ -57,7 +57,8 @@ mkdir -p tf_files/flowers/data
 tar xzf flower_photos.tgz
 mv flower_photos/* tf_files/flowers/data/
 rm -r flower_photos
-./train.sh tf_files flowers -s 4000
+rm tf_files/flowers/data/*/[3-9]*  # Optional if you just want to try it quickly
+./train.sh tf_files flowers -s 500
 ./classify.sh tf_files flowers tf_files/flowers/data/daisy/5547758_eea9edfd54_n.jpg
 ```
 
