@@ -16,21 +16,44 @@ The quality of your classifier will depend mostly on how good your labelled data
 * Sample images in labelled directories (though you can use an example dataset shown below)
 
 
+## Getting started with an example dataset
+
+The best way to get started is to try it out with an example dataset. Here we download a labelled dataset of flowers, move the photos into position, train the model against the dataset then use it to classify an image.
+```
+curl -O http://download.tensorflow.org/example_images/flower_photos.tgz
+mkdir -p tf_files/flowers/data
+tar xzf flower_photos.tgz
+mv flower_photos/* tf_files/flowers/data/
+rm -r flower_photos
+rm tf_files/flowers/data/*/[3-9]*  # Optional if you just want to try it quickly on a smaller dataset
+
+./train.sh tf_files flowers -s 500  # This is the bit that will take a while to run (~20 mins on my laptop using the reduced dataset)
+./classify.sh tf_files flowers tf_files/flowers/data/daisy/11124324295_503f3a0804.jpg
+```
+
+It should output something similar to the following probabilities:
+```
+daisy (score = 0.93466)
+sunflowers (score = 0.04375)
+dandelion (score = 0.01565)
+tulips (score = 0.00516)
+roses (score = 0.00078)
+```
+
+
 ## Directory setup
 
-You just need a directory that will hold the tensorflow data, your images and the output graphs - this is usually called `tf_files`. Make a classifier directory in it which is the name of the classifier you are building. Inside that should be a directory `data` where you should put all your images.
+You need a directory that will hold the tensorflow data, your images and the output graphs - this is usually called `tf_files`. Make a classifier directory in it which is the name of the classifier you are building. Inside that should be a directory `data` where you should put directories for each of the classification labels and then images within those.
 
 For example:
 ```
-  ~/tf_files/
-  ~/tf_files/classifier_name/
-  ~/tf_files/classifier_name/data
-  ~/tf_files/classifier_name/data/daisy
-  ~/tf_files/classifier_name/data/dandelion
-  ~/tf_files/classifier_name/data/sunflowers
+tf_files/
+tf_files/flowers/
+tf_files/flowers/data
+tf_files/flowers/data/daisy
+tf_files/flowers/data/dandelion
+tf_files/flowers/data/sunflowers
 ```
-Once you have run the training process, your classifier directory will also have trained classifier output graph.
-
 
 ## Training
 
@@ -38,35 +61,13 @@ Train against the image samples for your classifier with 500 steps:
 ```
 ./train.sh path_to_tf_files classifier_name -s 500
 ```
+Creating bottlenecks is the most time-consuming part and has to be done for each of the images. These bottlenecks are cached to disk though in `tf_files/bottlenecks` so only has to be done if new images are added. After the bottlenecks have been created, the main training and validation steps happen. The default (if no `-s` parameter is provided) is 4000 steps. The more steps you use for training, the more accurate the classificaiton should be, though you will hit a point of diminishing returns.
 
 
 ## Classifying
 
 Classify an image against the trained graph:
 ```
-./classify.sh path_to_tf_files classifier_name /yourfile.jpg
+./classify.sh path_to_tf_files classifier_name yourfile.jpg
 ```
-
-
-## Getting started with example dataset
-
-You can quickly try this out with an example dataset.
-```
-curl -O http://download.tensorflow.org/example_images/flower_photos.tgz
-mkdir -p tf_files/flowers/data
-tar xzf flower_photos.tgz
-mv flower_photos/* tf_files/flowers/data/
-rm -r flower_photos
-rm tf_files/flowers/data/*/[3-9]*  # Optional if you just want to try it quickly
-./train.sh tf_files flowers -s 500
-./classify.sh tf_files flowers tf_files/flowers/data/daisy/11124324295_503f3a0804.jpg
-```
-
-It should output the following:
-```
-daisy (score = 0.98380)
-dandelion (score = 0.00941)
-sunflowers (score = 0.00610)
-tulips (score = 0.00048)
-roses (score = 0.00020)
-```
+The results are ordered with the strongest matches at the top along with the probability scores. A score of 0.93, for example, means the classifier is 93% sure of the label being correct.
