@@ -1,3 +1,4 @@
+#!/bin/sh
 VOLUME="$(cd "$(dirname "$1")"; pwd)/$(basename "$1")"
 DATASET=$2
 FILE="$(cd "$(dirname "$3")"; pwd)/$(basename "$3")"

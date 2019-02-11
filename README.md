@@ -20,13 +20,8 @@ The quality of your classifier will depend mostly on how good your labelled data
 
 The best way to get started is to try it out with an example dataset. Here we download a labelled dataset of flowers, move the photos into position, train the model against the dataset then use it to classify an image.
 ```
-curl -O http://download.tensorflow.org/example_images/flower_photos.tgz
-mkdir -p tf_files/flowers/data
-tar xzf flower_photos.tgz
-mv flower_photos/* tf_files/flowers/data/
-rm -r flower_photos
-rm tf_files/flowers/data/*/[3-9]*  # Optional if you just want to try it quickly on a smaller dataset
-
+git clone git@github.com:damianmoore/tensorflow-image-classifier.git
+./download_example_dataset.sh
 ./train.sh tf_files flowers -s 500  # This is the bit that will take a while to run (~20 mins on my laptop using the reduced dataset)
 ./classify.sh tf_files flowers tf_files/flowers/data/daisy/11124324295_503f3a0804.jpg
 ```
